@@ -6,10 +6,7 @@
 import java.util.Scanner; //scanner
 import java.io.FileInputStream; //reading data
 import java.io.FileOutputStream; //writing data
-import java.util.StringTokenizer; //string Tokenizer
 import java.io.BufferedReader; //read text file
-import java.util.regex.Matcher; //import for pattern matching
-import java.util.regex.Pattern; //import for pattern matching
 import java.io.File; //file and directory pathnames
 import java.io.FileNotFoundException; //exception for reading and writing
 import java.io.FileReader; //used to read data (in characters) from files
@@ -19,17 +16,6 @@ import java.io.PrintWriter;//print the formatted representation of objects to th
 public class BibCreator {
 
 	static int invalid = 0, valid = 0;//how many valid or invalid files
-	
-	public static String readFile(Scanner scanner)
-	{
-		String n = "";
-		while (scanner.hasNextLine()) 
-		{
-			n += scanner.nextLine(); //adding to string
-		}
-		scanner.close();
-		return n; 
-	}
 	
 	public static void deleteFile(int i)//DELETING 
 	{
@@ -43,37 +29,189 @@ public class BibCreator {
 		deleteFile.delete();
 	}
 	
-	public static void processFilesForValidation(Scanner scanner, PrintWriter pw, int i) throws FileInvalidException, FileNotFoundException
+	public static void processFilesForValidation(int i) throws FileInvalidException, FileNotFoundException
 	{
-		
-		String bib = readFile(scanner); //Using function to read file and put into one big string
-		String ieee = "";
-		String acm = "";
-		String nj = "";
-		StringTokenizer seperateArticle = new StringTokenizer(bib, "@"); //breaking string into tokens to seperate the articles when it starts with @
-		
-		while(seperateArticle.hasMoreTokens())
-		{
-			
-			
+		PrintWriter pw; 
+		String authorIEEE=null;
+        String authorACM=null;
+        String authorNJ=null;
+        String journal=null;
+        String title=null;
+        String year=null;
+        String volume=null;
+        String number=null;
+        String pages=null;
+        String keywords=null;
+        String doi=null;
+        String ISSN=null;
+        String month=null;
+        String ieee =null;
+        String acm=null;
+        String nj=null;
+        String error=null;
+        String line=null;
+        int acmCounter= 0;
+        
+        try 
+        {
+	    	 BufferedReader br = new BufferedReader(new FileReader("C:\\Java eclipse\\2032901_Du_2033597_Hsu\\src\\bibFiles\\Latex" + i + ".bib"));
+	    	 while ((line = br.readLine()) != null) {
+	                boolean lineError=true;
+	                if (line.equals("")) 
+	                {
+	                    
+	                } else if (line.contains("author={},")) {
+	                	
+	                    error = "author";
+	                    lineError=false;
+	                    throw new FileInvalidException();
+	                    
+	                } else if (line.contains("journal={},")) {
+	                	
+	                    lineError=false;
+	                    error = "journal";
+	                    throw new FileInvalidException();
+	                    
+	                } else if (line.contains("title={},")) {
+	                	
+	                    error = "title";
+	                    lineError=false;
+	                    throw new FileInvalidException();
+	                    
+	                } else if (line.contains("year={},")) {
+	                	
+	                    error = "year";
+	                    throw new FileInvalidException();
+	                    
+	                } else if (line.contains("volume={},")) {
+	                	
+	                    error = "volume";
+	                    lineError=false;
+	                    throw new FileInvalidException();
+	                    
+	                } else if (line.contains("number={},")) {
+	                    error = "number";
+	                    lineError=false;
+	                    throw new FileInvalidException();
+	                    
+	                } else if (line.contains("pages={},")) {
+	                	
+	                    error = "pages";
+	                    lineError=false;
+	                    throw new FileInvalidException();
+	                    
+	                } else if (line.contains("keywords={},")) {
+	                	
+	                    error = "keywords";
+	                    lineError=false;
+	                    throw new FileInvalidException();
+	                    
+	                } else if (line.contains("doi={},")) {
+	                	
+	                    error = "doi";
+	                    lineError=false;
+	                    throw new FileInvalidException();
+	                    
+	                } else if (line.contains("ISSN={},")) {
+	                	
+	                    error = "ISSN";
+	                    lineError=false;
+	                    throw new FileInvalidException();
+	                    
+	                } else if (line.contains("month={},")) {
+	                	
+	                    error = "month";
+	                    lineError=false;
+	                    throw new FileInvalidException();
+	                    
+	                } else if (line.contains("author={")&&lineError) {
+	                	
+	                    authorIEEE=line.substring(8,line.indexOf("}"));
+	                    authorACM=line.substring(8,line.indexOf("}"));
+	                    authorNJ=line.substring(8,line.indexOf("}"));
+	                    authorIEEE=authorIEEE.replaceAll(" and",",");
+	                    authorNJ=authorNJ.replaceAll("and","&");
+	                    
+	                    if (line.contains("and")) 
+	                    {
+	                        authorACM=authorACM.substring(0,authorACM.indexOf("and")-1)+" et al";
+	                    }
+	                    else
+	                    {
+	                        authorACM=authorACM+ "et al";
+	                    }
+	                    acmCounter++;
+	                } else if (line.contains("journal={")&&lineError) {
+	                	
+	                    journal=line.substring(9,line.indexOf("}"));
+	                    
+	                } else if (line.contains("title={")&&lineError) {
+	                	
+	                    title=line.substring(7,line.indexOf("}"));
+	                    
+	                } else if (line.contains("year={")&&lineError) {
+	                	
+	                    year=line.substring(6,line.indexOf("}"));
+	                    
+	                } else if (line.contains("volume={")&&lineError) {
+	                	
+	                    volume=line.substring(8,line.indexOf("}"));
+	                    
+	                } else if (line.contains("number={")&&lineError) {
+	                	
+	                    number=line.substring(8,line.indexOf("}"));
+	                    
+	                } else if (line.contains("pages={")&&lineError) {
+	                	
+	                    pages=line.substring(7,line.indexOf("}"));
+	                    
+	                } else if (line.contains("keywords={")&&lineError) {
+	                	
+	                	keywords=line.substring(10,line.indexOf("}"));
+	                    
+	                } else if (line.contains("doi={")&&lineError) {
+	                    doi=line.substring(5,line.indexOf("}"));
+	                    
+	                } else if (line.contains("ISSN={")&&lineError) {
+	                	
+	                	ISSN=line.substring(6,line.indexOf("}"));
+	                    
+	                } else if (line.contains("month={")&&lineError) {
+	                	ieee = authorIEEE + ". " + "\"" + title + "\"" + ", " + journal + ", vol. " + volume + ", no. " + number + ", p. " + pages + ", " + month + " " + year + ".\n";
+	                	acm = "[" + acmCounter + "] " + authorACM + ". " + title + ". " + year + ". " + journal + ". " + volume + ", " + number + " (" + year + ")" + ", " + pages + ". DOI:https://doi.org/" + doi + ".\n";
+	                	nj = authorNJ + ". " + title + ". " + journal + ". " + volume + ", " + pages + "(" + year + ")" + ".\n";
+	                	//create IEEE file and write to new file from reading ieee string
+	                	pw = new PrintWriter(new FileOutputStream("IEEE"+ i +".json", false));
+	            		pw.println(ieee);
+	            		pw.close();
+	            		
+	            		//create ACM file file and write to new file from reading acm string
+	            		pw = new PrintWriter(new FileOutputStream("ACM"+ i +".json", false));
+	            		pw.println(acm);
+	            		pw.close();
+	            		
+	            		//create NJ file file and write to new file from reading nj string
+	            		pw = new PrintWriter(new FileOutputStream("NJ"+ i +".json", false));
+	            		pw.println(nj);
+	            		pw.close();
+	            		valid++;// counter for succesful files.
+	                }
+	    	 }
+	    	 br.close();
+	        } catch (FileNotFoundException e) {
+	            System.out.println("File Latex" + i + ".bib not found! Program shall terminate now.");
+	            System.exit(0);
+	            
+		} catch (Exception e) {
+			// TODO: handle exception
+			invalid++;
+            System.out.println("Error: Detected Empty Filed!");
+            System.out.println("============================");
+            System.out.println("\nProblem detected with file Latex." + i + "bib");
+            System.out.println(e.getMessage());
+            System.out.println("File is Invalid: Field \"" + error + "\" is Empty. Processing has stopped at this point. Other empty fields may be present as well!\n");
 		}
 		
-		//create IEEE file and write to new file from reading ieee string
-		pw = new PrintWriter(new FileOutputStream("IEEE"+ i +".json", false));
-		pw.println(ieee);
-		pw.close();
-		
-		//create ACM file file and write to new file from reading acm string
-		pw = new PrintWriter(new FileOutputStream("ACM"+ i +".json", false));
-		pw.println(acm);
-		pw.close();
-		
-		//create NJ file file and write to new file from reading nj string
-		pw = new PrintWriter(new FileOutputStream("NJ"+ i +".json", false));
-		pw.println(nj);
-		pw.close();
-		
-		valid++;// counter for succesful files.
 		
 	}
 	
@@ -100,7 +238,6 @@ public class BibCreator {
 		
 		}	
 
-		boolean flag = false;
 		for (int i = 1; i <= 10; i++)
 		{
 			//IEEE
@@ -157,7 +294,17 @@ public class BibCreator {
 		}
 		
 		//VALIDATING N STUFF
-		
+		for(int i=1;i<11;i++) {
+			try {
+				processFilesForValidation(i);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (FileInvalidException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
 		
 		System.out.println("A total of " + invalid + " files were invalid, and could not be processed. All other " + valid + " files have been created.\n");
 
@@ -211,7 +358,7 @@ public class BibCreator {
 		}
 		System.out.print("Goodbye! Hope you enjoyed creating the needed files using BibCreator.");
 
-		System.out.println("A total of " + invalid + " files were invalid, and could not be processed. All other " + valid + " files have been created.\n");
+		
 	}
 
 }
