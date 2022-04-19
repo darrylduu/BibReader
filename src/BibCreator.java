@@ -70,121 +70,122 @@ public class BibCreator {
 	                } else if (line.contains("author={},")) {
 
 	                    error = "author";
-	                    lineError=false;
+	                    lineError = false;
 	                    throw new FileInvalidException();
 	                    
 	                } else if (line.contains("journal={},")) {
 
-	                    lineError=false;
+	                    lineError = false;
 	                    error = "journal";
 	                    throw new FileInvalidException();
 	                    
 	                } else if (line.contains("title={},")) {
 
 	                    error = "title";
-	                    lineError=false;
+	                    lineError = false;
 	                    throw new FileInvalidException();
 	                    
 	                } else if (line.contains("year={},")) {
 
 	                    error = "year";
+	                    lineError=false;
 	                    throw new FileInvalidException();
 	                    
 	                } else if (line.contains("volume={},")) {
 
 	                    error = "volume";
-	                    lineError=false;
+	                    lineError = false;
 	                    throw new FileInvalidException();
 	                    
 	                } else if (line.contains("number={},")) {
 
 	                    error = "number";
-	                    lineError=false;
+	                    lineError = false;
 	                    throw new FileInvalidException();
 	                    
 	                } else if (line.contains("pages={},")) {
 
 	                    error = "pages";
-	                    lineError=false;
+	                    lineError = false;
 	                    throw new FileInvalidException();
 	                    
 	                } else if (line.contains("keywords={},")) {
 
 	                    error = "keywords";
-	                    lineError=false;
+	                    lineError = false;
 	                    throw new FileInvalidException();
 	                    
 	                } else if (line.contains("doi={},")) {
 
 	                    error = "doi";
-	                    lineError=false;
+	                    lineError = false;
 	                    throw new FileInvalidException();
 	                    
 	                } else if (line.contains("ISSN={},")) {
 
 	                    error = "ISSN";
-	                    lineError=false;
+	                    lineError = false;
 	                    throw new FileInvalidException();
 	                    
 	                } else if (line.contains("month={},")) {
 
 	                    error = "month";
-	                    lineError=false;
+	                    lineError = false;
 	                    throw new FileInvalidException();
 	                    
 	                } else if (line.contains("author={")&&lineError) {
 	                	
-	                    authorIEEE=line.substring(8,line.indexOf("}"));
-	                    authorACM=line.substring(8,line.indexOf("}"));
-	                    authorNJ=line.substring(8,line.indexOf("}"));
-	                    authorIEEE=authorIEEE.replaceAll(" and",",");
-	                    authorNJ=authorNJ.replaceAll("and","&");
+	                    authorIEEE = line.substring(8,line.indexOf("}"));
+	                    authorACM = line.substring(8,line.indexOf("}"));
+	                    authorNJ = line.substring(8,line.indexOf("}"));
+	                    authorIEEE = authorIEEE.replaceAll(" and",",");
+	                    authorNJ = authorNJ.replaceAll("and","&");
 	                    
 	                    if (line.contains("and")) 
 	                    {
-	                        authorACM=authorACM.substring(0,authorACM.indexOf("and")-1)+" et al";
+	                        authorACM = authorACM.substring(0,authorACM.indexOf("and")-1)+" et al";
 	                    }
 	                    else
 	                    {
-	                        authorACM=authorACM+ "et al";
+	                        authorACM = authorACM+ "et al";
 	                    }
 	                    acmCounter++;
-	                } else if (line.contains("journal={")&&lineError) {
+	                } else if (line.contains("journal={" )&& lineError) {
 	                	
-	                    journal=line.substring(9,line.indexOf("}"));
+	                    journal = line.substring(9,line.indexOf("}"));
 	                    
-	                } else if (line.contains("title={")&&lineError) {
+	                } else if (line.contains("title={") &&lineError) {
 	                	
-	                    title=line.substring(7,line.indexOf("}"));
+	                    title = line.substring(7,line.indexOf("}"));
 	                    
-	                } else if (line.contains("year={")&&lineError) {
+	                } else if (line.contains("year={") && lineError) {
 	                	
-	                    year=line.substring(6,line.indexOf("}"));
+	                    year = line.substring(6,line.indexOf("}"));
 	                    
-	                } else if (line.contains("volume={")&&lineError) {
+	                } else if (line.contains("volume={") && lineError) {
 	                	
-	                    volume=line.substring(8,line.indexOf("}"));
+	                    volume = line.substring(8,line.indexOf("}"));
 	                    
-	                } else if (line.contains("number={")&&lineError) {
+	                } else if (line.contains("number={") && lineError) {
 	                	
-	                    number=line.substring(8,line.indexOf("}"));
+	                    number = line.substring(8,line.indexOf("}"));
 	                    
-	                } else if (line.contains("pages={")&&lineError) {
+	                } else if (line.contains("pages={") && lineError) {
 	                	
-	                    pages=line.substring(7,line.indexOf("}"));
+	                    pages = line.substring(7,line.indexOf("}"));
 	                    
-	                } else if (line.contains("keywords={")&&lineError) {
+	                } else if (line.contains("keywords={") && lineError) {
 	                	
-	                	keywords=line.substring(10,line.indexOf("}"));
+	                	keywords = line.substring(10,line.indexOf("}"));
 	                    
-	                } else if (line.contains("doi={")&&lineError) {
-	                    doi=line.substring(5,line.indexOf("}"));
+	                } else if (line.contains("doi={") && lineError) {
+	                    doi = line.substring(5,line.indexOf("}"));
 	                    
-	                } else if (line.contains("ISSN={")&&lineError) {
+	                } else if (line.contains("ISSN={") && lineError) {
 	                	
-	                	ISSN=line.substring(6,line.indexOf("}"));
+	                	ISSN = line.substring(6,line.indexOf("}"));
 	                    
-	                } else if (line.contains("month={")&&lineError) {
+	                } else if (line.contains("month={") && lineError) {
 	                	pwieee.println(authorIEEE + ". " + "\"" + title + "\"" + ", " + journal + ", vol. " + volume + ", no. " + number + ", p. " + pages + ", " + month + " " + year + ".\n");
 	                	pwacm.println("[" + acmCounter + "] " + authorACM + ". " + title + ". " + year + ". " + journal + ". " + volume + ", " + number + " (" + year + ")" + ", " + pages + ". DOI:https://doi.org/" + doi + ".\n");
 	                	pwnj.println(authorNJ + ". " + title + ". " + journal + ". " + volume + ", " + pages + "(" + year + ")" + ".\n");
