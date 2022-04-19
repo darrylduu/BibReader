@@ -54,86 +54,76 @@ public class BibCreator {
         try 
         {
         	 BufferedReader br = new BufferedReader(new FileReader("C:\\Java eclipse\\2032901_Du_2033597_Hsu\\src\\Latex" + i + ".bib"));
+        	 //create ACM file
         	 File ACMFile = new File("ACM" + i + ".json");
+        	 //create IEEE file
              File IEEEFile = new File("IEEE" + i + ".json");
+             //create NJ file 
              File NJFile = new File("NJ" + i + ".json");
+             
              pwieee = new PrintWriter(new FileOutputStream("IEEE"+ i +".json", true));
-     		 //create ACM file file and write to new file from reading acm string
+     		
      		 pwacm = new PrintWriter(new FileOutputStream("ACM"+ i +".json", true));
-     		 //create NJ file file and write to new file from reading nj string
+
      		 pwnj = new PrintWriter(new FileOutputStream("NJ"+ i +".json", true));
+     		 //copy file onto string line 
 	    	 while ((line = br.readLine()) != null) {
-	                boolean lineError=true;
-	                if (line.equals("")) 
-	                {
-	                    
-	                } else if (line.contains("author={},")) {
+	    		   if (line.contains("author={},")) {//empty author
 
 	                    error = "author";
-	                    lineError = false;
 	                    throw new FileInvalidException();
 	                    
-	                } else if (line.contains("journal={},")) {
+	                } else if (line.contains("journal={},")) {//empty journal
 
-	                    lineError = false;
 	                    error = "journal";
 	                    throw new FileInvalidException();
 	                    
-	                } else if (line.contains("title={},")) {
+	                } else if (line.contains("title={},")) {//empty title
 
 	                    error = "title";
-	                    lineError = false;
 	                    throw new FileInvalidException();
 	                    
-	                } else if (line.contains("year={},")) {
+	                } else if (line.contains("year={},")) {//empty year
 
 	                    error = "year";
-	                    lineError=false;
 	                    throw new FileInvalidException();
 	                    
-	                } else if (line.contains("volume={},")) {
+	                } else if (line.contains("volume={},")) {//empty volume
 
 	                    error = "volume";
-	                    lineError = false;
 	                    throw new FileInvalidException();
 	                    
-	                } else if (line.contains("number={},")) {
+	                } else if (line.contains("number={},")) {//empty number
 
 	                    error = "number";
-	                    lineError = false;
 	                    throw new FileInvalidException();
 	                    
-	                } else if (line.contains("pages={},")) {
+	                } else if (line.contains("pages={},")) {//empty pages
 
 	                    error = "pages";
-	                    lineError = false;
 	                    throw new FileInvalidException();
 	                    
-	                } else if (line.contains("keywords={},")) {
+	                } else if (line.contains("keywords={},")) {//empty keywords
 
 	                    error = "keywords";
-	                    lineError = false;
 	                    throw new FileInvalidException();
 	                    
-	                } else if (line.contains("doi={},")) {
+	                } else if (line.contains("doi={},")) {//empty doi
 
 	                    error = "doi";
-	                    lineError = false;
 	                    throw new FileInvalidException();
 	                    
-	                } else if (line.contains("ISSN={},")) {
+	                } else if (line.contains("ISSN={},")) {//empty issn
 
 	                    error = "ISSN";
-	                    lineError = false;
 	                    throw new FileInvalidException();
 	                    
-	                } else if (line.contains("month={},")) {
+	                } else if (line.contains("month={},")) {//empty month
 
 	                    error = "month";
-	                    lineError = false;
 	                    throw new FileInvalidException();
 	                    
-	                } else if (line.contains("author={")&&lineError) {
+	                } else if (line.contains("author={")) {
 	                	
 	                    authorIEEE = line.substring(8,line.indexOf("}"));
 	                    authorACM = line.substring(8,line.indexOf("}"));
@@ -150,42 +140,42 @@ public class BibCreator {
 	                        authorACM = authorACM+ "et al";
 	                    }
 	                    acmCounter++;
-	                } else if (line.contains("journal={" )&& lineError) {
+	                } else if (line.contains("journal={" )) {
 	                	
 	                    journal = line.substring(9,line.indexOf("}"));
 	                    
-	                } else if (line.contains("title={") &&lineError) {
+	                } else if (line.contains("title={")) {
 	                	
 	                    title = line.substring(7,line.indexOf("}"));
 	                    
-	                } else if (line.contains("year={") && lineError) {
+	                } else if (line.contains("year={")) {
 	                	
 	                    year = line.substring(6,line.indexOf("}"));
 	                    
-	                } else if (line.contains("volume={") && lineError) {
+	                } else if (line.contains("volume={")) {
 	                	
 	                    volume = line.substring(8,line.indexOf("}"));
 	                    
-	                } else if (line.contains("number={") && lineError) {
+	                } else if (line.contains("number={")) {
 	                	
 	                    number = line.substring(8,line.indexOf("}"));
 	                    
-	                } else if (line.contains("pages={") && lineError) {
+	                } else if (line.contains("pages={")) {
 	                	
 	                    pages = line.substring(7,line.indexOf("}"));
 	                    
-	                } else if (line.contains("keywords={") && lineError) {
+	                } else if (line.contains("keywords={")) {
 	                	
 	                	keywords = line.substring(10,line.indexOf("}"));
 	                    
-	                } else if (line.contains("doi={") && lineError) {
+	                } else if (line.contains("doi={")) {
 	                    doi = line.substring(5,line.indexOf("}"));
 	                    
-	                } else if (line.contains("ISSN={") && lineError) {
+	                } else if (line.contains("ISSN={")) {
 	                	
 	                	ISSN = line.substring(6,line.indexOf("}"));
 	                    
-	                } else if (line.contains("month={") && lineError) {
+	                } else if (line.contains("month={")) {
 	                	pwieee.println(authorIEEE + ". " + "\"" + title + "\"" + ", " + journal + ", vol. " + volume + ", no. " + number + ", p. " + pages + ", " + month + " " + year + ".\n");
 	                	pwacm.println("[" + acmCounter + "] " + authorACM + ". " + title + ". " + year + ". " + journal + ". " + volume + ", " + number + " (" + year + ")" + ", " + pages + ". DOI:https://doi.org/" + doi + ".\n");
 	                	pwnj.println(authorNJ + ". " + title + ". " + journal + ". " + volume + ", " + pages + "(" + year + ")" + ".\n");
