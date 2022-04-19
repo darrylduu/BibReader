@@ -31,7 +31,7 @@ public class BibCreator {
 	
 	public static void processFilesForValidation(int i) throws FileInvalidException, FileNotFoundException
 	{
-		PrintWriter pw; 
+		PrintWriter pwieee, pwacm, pwnj; 
 		String authorIEEE=null;
         String authorACM=null;
         String authorNJ=null;
@@ -51,10 +51,17 @@ public class BibCreator {
         String error=null;
         String line=null;
         int acmCounter= 0;
-        
         try 
         {
-	    	 BufferedReader br = new BufferedReader(new FileReader("C:\\Java eclipse\\2032901_Du_2033597_Hsu\\src\\bibFiles\\Latex" + i + ".bib"));
+        	 BufferedReader br = new BufferedReader(new FileReader("C:\\Java eclipse\\2032901_Du_2033597_Hsu\\src\\Latex" + i + ".bib"));
+        	 File ACMFile = new File("ACM" + i + ".json");
+             File IEEEFile = new File("IEEE" + i + ".json");
+             File NJFile = new File("NJ" + i + ".json");
+             pwieee = new PrintWriter(new FileOutputStream("IEEE"+ i +".json", true));
+     		 //create ACM file file and write to new file from reading acm string
+     		 pwacm = new PrintWriter(new FileOutputStream("ACM"+ i +".json", true));
+     		 //create NJ file file and write to new file from reading nj string
+     		 pwnj = new PrintWriter(new FileOutputStream("NJ"+ i +".json", true));
 	    	 while ((line = br.readLine()) != null) {
 	                boolean lineError=true;
 	                if (line.equals("")) 
@@ -181,19 +188,16 @@ public class BibCreator {
 	                	acm = "[" + acmCounter + "] " + authorACM + ". " + title + ". " + year + ". " + journal + ". " + volume + ", " + number + " (" + year + ")" + ", " + pages + ". DOI:https://doi.org/" + doi + ".\n";
 	                	nj = authorNJ + ". " + title + ". " + journal + ". " + volume + ", " + pages + "(" + year + ")" + ".\n";
 	                	//create IEEE file and write to new file from reading ieee string
-	                	pw = new PrintWriter(new FileOutputStream("IEEE"+ i +".json", false));
-	            		pw.println(ieee);
-	            		pw.close();
+	            		pwieee.println(ieee);
+	            		pwieee.close();
 	            		
 	            		//create ACM file file and write to new file from reading acm string
-	            		pw = new PrintWriter(new FileOutputStream("ACM"+ i +".json", false));
-	            		pw.println(acm);
-	            		pw.close();
-	            		
+	            		pwacm.println(acm);
+	            		pwacm.close();
+	           
 	            		//create NJ file file and write to new file from reading nj string
-	            		pw = new PrintWriter(new FileOutputStream("NJ"+ i +".json", false));
-	            		pw.println(nj);
-	            		pw.close();
+	            		pwnj.println(nj);
+	            		pwnj.close();
 	            		valid++;// counter for succesful files.
 	                }
 	    	 }
@@ -223,76 +227,76 @@ public class BibCreator {
 		
 		System.out.println("Welcome to Bib Creator!");
 		
-		for(int i = 1; i <= 10; i++) {
-		
-			try {
-				sc = new Scanner(new FileInputStream("Latex" + i + ".bib"));
-				sc.close();
-			}
-			
-			catch(FileNotFoundException e) {							   
-				System.out.println("Could not open input file Latex" + i + ".bib for reading. \nPlease check if file exists! \nProgram will terminate after closing any opened files.");
-	            System.exit(0);
-				sc.close();
-			} 
-		
-		}	
-
-		for (int i = 1; i <= 10; i++)
-		{
-			//IEEE
-			try
-			{
-				pw = new PrintWriter(new FileOutputStream("IEEE" + i + ".json"));
-				pw.close();//Close printwriter object
-			}
-			catch (FileNotFoundException e)
-			{
-				System.out.println("Could not create IEEE" + i + ".json for Latex" + i + ".bib.\nClearing directory of all other created output files.");
-				pw.close(); //must create another set of closes since it skips when the exception is thrown
-			
-				for(int j=0; j<i; j++)// looping as many times as files were created
-				{
-					deleteFile(i);
-				}
-				System.exit(0);	
-			}
-			//ACM
-			try
-			{
-				pw = new PrintWriter(new FileOutputStream("ACM" + i + ".json"));
-				pw.close();//Close printwriter object
-			}
-			catch (FileNotFoundException e)
-			{
-				System.out.println("Could not create ACM" + i + ".json for Latex" + i + ".bib.\nClearing directory of all other created output files.");
-				pw.close(); //must create another set of closes since it skips when the exception is thrown
-			
-				for(int j=0; j<i; j++)// looping as many times as files were created
-				{
-					deleteFile(i);
-				}
-				System.exit(0);	
-			}
-			//NJ
-			try
-			{
-				pw = new PrintWriter(new FileOutputStream("NJ" + i + ".json"));
-				pw.close();//Close printwriter object
-			}
-			catch (FileNotFoundException e)
-			{
-				System.out.println("Could not create NJ" + i + ".json for Latex" + i + ".bib.\nClearing directory of all other created output files.");
-				pw.close(); //must create another set of closes since it skips when the exception is thrown
-			
-				for(int j=0; j<i; j++)// looping as many times as files were created
-				{
-					deleteFile(i);
-				}
-				System.exit(0);	
-			}
-		}
-		
+//		for(int i = 1; i <= 10; i++) {
+//		
+//			try {
+//				sc = new Scanner(new FileInputStream("Latex" + i + ".bib"));
+//				sc.close();
+//			}
+//			
+//			catch(FileNotFoundException e) {							   
+//				System.out.println("Could not open input file Latex" + i + ".bib for reading. \nPlease check if file exists! \nProgram will terminate after closing any opened files.");
+//	            System.exit(0);
+//				sc.close();
+//			} 
+//		
+//		}	
+//
+//		for (int i = 1; i <= 10; i++)
+//		{
+//			//IEEE
+//			try
+//			{
+//				pw = new PrintWriter(new FileOutputStream("IEEE" + i + ".json"));
+//				pw.close();//Close printwriter object
+//			}
+//			catch (FileNotFoundException e)
+//			{
+//				System.out.println("Could not create IEEE" + i + ".json for Latex" + i + ".bib.\nClearing directory of all other created output files.");
+//				pw.close(); //must create another set of closes since it skips when the exception is thrown
+//			
+//				for(int j=0; j<i; j++)// looping as many times as files were created
+//				{
+//					deleteFile(i);
+//				}
+//				System.exit(0);	
+//			}
+//			//ACM
+//			try
+//			{
+//				pw = new PrintWriter(new FileOutputStream("ACM" + i + ".json"));
+//				pw.close();//Close printwriter object
+//			}
+//			catch (FileNotFoundException e)
+//			{
+//				System.out.println("Could not create ACM" + i + ".json for Latex" + i + ".bib.\nClearing directory of all other created output files.");
+//				pw.close(); //must create another set of closes since it skips when the exception is thrown
+//			
+//				for(int j=0; j<i; j++)// looping as many times as files were created
+//				{
+//					deleteFile(i);
+//				}
+//				System.exit(0);	
+//			}
+//			//NJ
+//			try
+//			{
+//				pw = new PrintWriter(new FileOutputStream("NJ" + i + ".json"));
+//				pw.close();//Close printwriter object
+//			}
+//			catch (FileNotFoundException e)
+//			{
+//				System.out.println("Could not create NJ" + i + ".json for Latex" + i + ".bib.\nClearing directory of all other created output files.");
+//				pw.close(); //must create another set of closes since it skips when the exception is thrown
+//			
+//				for(int j=0; j<i; j++)// looping as many times as files were created
+//				{
+//					deleteFile(i);
+//				}
+//				System.exit(0);	
+//			}
+//		}
+//		
 		//VALIDATING N STUFF
 		for(int i=1;i<11;i++) {
 			try {
