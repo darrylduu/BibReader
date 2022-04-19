@@ -184,19 +184,11 @@ public class BibCreator {
 	                	ISSN=line.substring(6,line.indexOf("}"));
 	                    
 	                } else if (line.contains("month={")&&lineError) {
-	                	ieee = authorIEEE + ". " + "\"" + title + "\"" + ", " + journal + ", vol. " + volume + ", no. " + number + ", p. " + pages + ", " + month + " " + year + ".\n";
-	                	acm = "[" + acmCounter + "] " + authorACM + ". " + title + ". " + year + ". " + journal + ". " + volume + ", " + number + " (" + year + ")" + ", " + pages + ". DOI:https://doi.org/" + doi + ".\n";
-	                	nj = authorNJ + ". " + title + ". " + journal + ". " + volume + ", " + pages + "(" + year + ")" + ".\n";
-	                	//create IEEE file and write to new file from reading ieee string
-	            		pwieee.println(ieee);
+	                	pwieee.println(authorIEEE + ". " + "\"" + title + "\"" + ", " + journal + ", vol. " + volume + ", no. " + number + ", p. " + pages + ", " + month + " " + year + ".\n");
+	                	pwacm.println("[" + acmCounter + "] " + authorACM + ". " + title + ". " + year + ". " + journal + ". " + volume + ", " + number + " (" + year + ")" + ", " + pages + ". DOI:https://doi.org/" + doi + ".\n");
+	                	pwnj.println(authorNJ + ". " + title + ". " + journal + ". " + volume + ", " + pages + "(" + year + ")" + ".\n");
 	            		pwieee.close();
-	            		
-	            		//create ACM file file and write to new file from reading acm string
-	            		pwacm.println(acm);
 	            		pwacm.close();
-	           
-	            		//create NJ file file and write to new file from reading nj string
-	            		pwnj.println(nj);
 	            		pwnj.close();
 	            		valid++;// counter for succesful files.
 	                }
@@ -211,7 +203,7 @@ public class BibCreator {
 			invalid++;
             System.out.println("Error: Detected Empty Filed!");
             System.out.println("============================");
-            System.out.println("\nProblem detected with file Latex." + i + "bib");
+            System.out.println("\nProblem detected with file Latex" + i + ".bib");
             System.out.println(e.getMessage());
             System.out.println("File is Invalid: Field \"" + error + "\" is Empty. Processing has stopped at this point. Other empty fields may be present as well!\n");
 		}
@@ -226,77 +218,7 @@ public class BibCreator {
 		BufferedReader br = null;
 		
 		System.out.println("Welcome to Bib Creator!");
-		
-//		for(int i = 1; i <= 10; i++) {
-//		
-//			try {
-//				sc = new Scanner(new FileInputStream("Latex" + i + ".bib"));
-//				sc.close();
-//			}
-//			
-//			catch(FileNotFoundException e) {							   
-//				System.out.println("Could not open input file Latex" + i + ".bib for reading. \nPlease check if file exists! \nProgram will terminate after closing any opened files.");
-//	            System.exit(0);
-//				sc.close();
-//			} 
-//		
-//		}	
-//
-//		for (int i = 1; i <= 10; i++)
-//		{
-//			//IEEE
-//			try
-//			{
-//				pw = new PrintWriter(new FileOutputStream("IEEE" + i + ".json"));
-//				pw.close();//Close printwriter object
-//			}
-//			catch (FileNotFoundException e)
-//			{
-//				System.out.println("Could not create IEEE" + i + ".json for Latex" + i + ".bib.\nClearing directory of all other created output files.");
-//				pw.close(); //must create another set of closes since it skips when the exception is thrown
-//			
-//				for(int j=0; j<i; j++)// looping as many times as files were created
-//				{
-//					deleteFile(i);
-//				}
-//				System.exit(0);	
-//			}
-//			//ACM
-//			try
-//			{
-//				pw = new PrintWriter(new FileOutputStream("ACM" + i + ".json"));
-//				pw.close();//Close printwriter object
-//			}
-//			catch (FileNotFoundException e)
-//			{
-//				System.out.println("Could not create ACM" + i + ".json for Latex" + i + ".bib.\nClearing directory of all other created output files.");
-//				pw.close(); //must create another set of closes since it skips when the exception is thrown
-//			
-//				for(int j=0; j<i; j++)// looping as many times as files were created
-//				{
-//					deleteFile(i);
-//				}
-//				System.exit(0);	
-//			}
-//			//NJ
-//			try
-//			{
-//				pw = new PrintWriter(new FileOutputStream("NJ" + i + ".json"));
-//				pw.close();//Close printwriter object
-//			}
-//			catch (FileNotFoundException e)
-//			{
-//				System.out.println("Could not create NJ" + i + ".json for Latex" + i + ".bib.\nClearing directory of all other created output files.");
-//				pw.close(); //must create another set of closes since it skips when the exception is thrown
-//			
-//				for(int j=0; j<i; j++)// looping as many times as files were created
-//				{
-//					deleteFile(i);
-//				}
-//				System.exit(0);	
-//			}
-//		}
-//		
+			
 		//VALIDATING N STUFF
 		for(int i=1;i<11;i++) {
 			try {
