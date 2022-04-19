@@ -15,23 +15,23 @@ import java.io.PrintWriter;//print the formatted representation of objects to th
 
 public class BibCreator {
 
-	static int invalid = 0, valid = 0;//how many valid or invalid files
+	static int invalid = 0, valid = 10;//how many valid or invalid files
 	
 	public static void deleteFile(int i)//DELETING 
 	{
 		File deleteFile = null;
 		
-		deleteFile = new File("C:\\Java eclipse\\2032901_Du_2033597_Hsu\\src\\Files\\IEEE"+ i +".json");
+		deleteFile = new File("C:\\Java eclipse\\2032901_Du_2033597_Hsu\\IEEE"+ i +".json");
 		deleteFile.delete();
-		deleteFile = new File("C:\\Java eclipse\\2032901_Du_2033597_Hsu\\src\\Files\\ACM" + i + ".json");
+		deleteFile = new File("C:\\Java eclipse\\2032901_Du_2033597_Hsu\\ACM" + i + ".json");
 		deleteFile.delete();
-		deleteFile = new File("C:\\Java eclipse\\2032901_Du_2033597_Hsu\\src\\Files\\NJ" + i + ".json");
+		deleteFile = new File("C:\\Java eclipse\\2032901_Du_2033597_Hsu\\NJ" + i + ".json");
 		deleteFile.delete();
 	}
 	
 	public static void processFilesForValidation(int i) throws FileInvalidException, FileNotFoundException
 	{
-		PrintWriter pwieee, pwacm, pwnj; 
+		PrintWriter pwieee = null, pwacm = null, pwnj = null; 
 		String authorIEEE=null;
         String authorACM=null;
         String authorNJ=null;
@@ -68,65 +68,66 @@ public class BibCreator {
 	                {
 	                    
 	                } else if (line.contains("author={},")) {
-	                	
+
 	                    error = "author";
 	                    lineError=false;
 	                    throw new FileInvalidException();
 	                    
 	                } else if (line.contains("journal={},")) {
-	                	
+
 	                    lineError=false;
 	                    error = "journal";
 	                    throw new FileInvalidException();
 	                    
 	                } else if (line.contains("title={},")) {
-	                	
+
 	                    error = "title";
 	                    lineError=false;
 	                    throw new FileInvalidException();
 	                    
 	                } else if (line.contains("year={},")) {
-	                	
+
 	                    error = "year";
 	                    throw new FileInvalidException();
 	                    
 	                } else if (line.contains("volume={},")) {
-	                	
+
 	                    error = "volume";
 	                    lineError=false;
 	                    throw new FileInvalidException();
 	                    
 	                } else if (line.contains("number={},")) {
+
 	                    error = "number";
 	                    lineError=false;
 	                    throw new FileInvalidException();
 	                    
 	                } else if (line.contains("pages={},")) {
-	                	
+
 	                    error = "pages";
 	                    lineError=false;
 	                    throw new FileInvalidException();
 	                    
 	                } else if (line.contains("keywords={},")) {
-	                	
+
 	                    error = "keywords";
 	                    lineError=false;
 	                    throw new FileInvalidException();
 	                    
 	                } else if (line.contains("doi={},")) {
-	                	
+
 	                    error = "doi";
 	                    lineError=false;
 	                    throw new FileInvalidException();
 	                    
 	                } else if (line.contains("ISSN={},")) {
-	                	
+
 	                    error = "ISSN";
 	                    lineError=false;
 	                    throw new FileInvalidException();
 	                    
 	                } else if (line.contains("month={},")) {
-	                	
+
 	                    error = "month";
 	                    lineError=false;
 	                    throw new FileInvalidException();
@@ -187,10 +188,6 @@ public class BibCreator {
 	                	pwieee.println(authorIEEE + ". " + "\"" + title + "\"" + ", " + journal + ", vol. " + volume + ", no. " + number + ", p. " + pages + ", " + month + " " + year + ".\n");
 	                	pwacm.println("[" + acmCounter + "] " + authorACM + ". " + title + ". " + year + ". " + journal + ". " + volume + ", " + number + " (" + year + ")" + ", " + pages + ". DOI:https://doi.org/" + doi + ".\n");
 	                	pwnj.println(authorNJ + ". " + title + ". " + journal + ". " + volume + ", " + pages + "(" + year + ")" + ".\n");
-	            		pwieee.close();
-	            		pwacm.close();
-	            		pwnj.close();
-	            		valid++;// counter for succesful files.
 	                }
 	    	 }
 	    	 br.close();
@@ -198,15 +195,22 @@ public class BibCreator {
 	            System.out.println("File Latex" + i + ".bib not found! Program shall terminate now.");
 	            System.exit(0);
 	            
-		} catch (Exception e) {
-			// TODO: handle exception
-			invalid++;
-            System.out.println("Error: Detected Empty Filed!");
-            System.out.println("============================");
-            System.out.println("\nProblem detected with file Latex" + i + ".bib");
-            System.out.println(e.getMessage());
-            System.out.println("File is Invalid: Field \"" + error + "\" is Empty. Processing has stopped at this point. Other empty fields may be present as well!\n");
-		}
+			} catch (Exception e) {
+				// TODO: handle exception
+				invalid++;
+		        System.out.println("Error: Detected Empty Filed!");
+		        System.out.println("============================");
+		        System.out.println("\nProblem detected with file Latex" + i + ".bib");
+		        System.out.println(e.getMessage());
+		        System.out.println("File is Invalid: Field \"" + error + "\" is Empty. Processing has stopped at this point. Other empty fields may be present as well!\n");
+		        deleteFile(i);
+		        
+			}finally {
+	            pwieee.close();
+	            pwacm.close();
+	            pwnj.close();
+	        }
+        
 		
 		
 	}
@@ -231,7 +235,7 @@ public class BibCreator {
 				e.printStackTrace();
 			}
         }
-		
+		valid = valid - invalid;
 		System.out.println("A total of " + invalid + " files were invalid, and could not be processed. All other " + valid + " files have been created.\n");
 
 		
@@ -251,7 +255,6 @@ public class BibCreator {
 				System.out.println(nextLine);
 				nextLine = br.readLine();
 			}
-			System.out.println("\nGoodbye! Hope you have enjoyed creating the needed files using BibCreator.");
 			
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -271,7 +274,6 @@ public class BibCreator {
 					System.out.println(nextLine);
 					nextLine = br.readLine();
 				}
-				System.out.println("\nGoodbye! Hope you have enjoyed creating the needed files using BibCreator.");
 				
 			} catch (Exception e2) {
 				// TODO: handle exception
@@ -283,7 +285,6 @@ public class BibCreator {
 			inputFile.close();
 		}
 		System.out.print("Goodbye! Hope you enjoyed creating the needed files using BibCreator.");
-
 		
 	}
 
